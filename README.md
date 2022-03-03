@@ -1,4 +1,4 @@
-# xo_game
+# Calculator App
 
 Developed by Eng Mouaz M AlShahmeh
 
