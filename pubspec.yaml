@@ -1,4 +1,4 @@
-name: xo_game
+name: calculator
 description: Developed by Eng Mouaz M AlShahmeh
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -12,8 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  google_fonts: ^2.3.1
-  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:

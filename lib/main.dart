@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:xo_game/src/ui/global/app_colors.dart';
-import 'package:xo_game/src/ui/global/ui_helpers.dart';
-import 'package:xo_game/src/ui/theme/theme.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:calculator/src/ui/global/app_colors.dart';
+import 'package:calculator/src/ui/global/ui_helpers.dart';
+import 'package:calculator/src/ui/theme/theme.dart';
 import 'dart:math';
 
 void main() {
@@ -16,11 +15,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'XO GAME BY ENG MOUAZ ALSHAHMEH',
+      title: 'CALCULATOR BY ENG MOUAZ ALSHAHMEH',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'XO GAME'),
+      home: const MyHomePage(title: 'CALCULATOR'),
     );
   }
 }
@@ -36,272 +35,48 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  List<String> _buttons= <String>['','','','','','','','','',];
-  bool _isStopGame = false;
-  bool _isORole = false;
-  Random random = Random();
+  String _screenNumber = '0';
+  String _oldScreenNumber = '0';
+  String _calcMethod = '';
 
-  void _newGame() {
+  void _storeFirstNumber(String oldScreenNumber, String calcMethod) {
     setState(() {
-      _buttons= ['','','','','','','','','',];
-      _isStopGame = false;
-      _isORole = false;
+      _oldScreenNumber = oldScreenNumber;
+      _calcMethod = calcMethod;
+      _screenNumber = '0';
     });
   }
 
-  void _oPlayerPlay() {
-    int randomNumber = random.nextInt(9);
-    if(_buttons[randomNumber] == '') {
-      _addToList('o', randomNumber);
-    } else {
-      _oPlayerPlay();
-    }
-  }
+  void _resultCalc(String newScreenNumber) {
+    if(_calcMethod != '') {
+      if(_calcMethod == 'x') {
+        setState(() {
+          _screenNumber = (double.tryParse(_oldScreenNumber)! * double.tryParse(newScreenNumber)!).toString();
+        });
+      } else if(_calcMethod == '-') {
+        setState(() {
+          _screenNumber = (double.tryParse(_oldScreenNumber)! - double.tryParse(newScreenNumber)!).toString();
+        });
+      } else if(_calcMethod == '+') {
+        setState(() {
+          _screenNumber = (double.tryParse(_oldScreenNumber)! + double.tryParse(newScreenNumber)!).toString();
+        });
+      } else if(_calcMethod == '÷') {
+        setState(() {
+          _screenNumber = (double.tryParse(_oldScreenNumber)! / double.tryParse(newScreenNumber)!).toString();
+        });
+      } else if(_calcMethod == '%') {
+        setState(() {
+          _screenNumber = (double.tryParse(_oldScreenNumber)! % double.tryParse(newScreenNumber)!).toString();
+        });
+      }
 
-
-  void _addToList(String val, int index) {
-    if(_isStopGame == true) {
-      return;
-    }
-    setState(() {
-      _buttons[index] = val;
-      _isORole = !_isORole;
-    });
-    _checkWinner();
-
-    if(_isORole == true) {
-      _oPlayerPlay();
-    }
-  }
-
-  void _checkWinner() {
-    // X Player Winner
-    if(_buttons[0] == 'x' && _buttons[1] == 'x' && _buttons[2] == 'x' ) {
-      Fluttertoast.showToast(
-          msg: "Winner X Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
       setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[3] == 'x' && _buttons[4] == 'x' && _buttons[5] == 'x' ) {
-      Fluttertoast.showToast(
-          msg: "Winner X Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[6] == 'x' && _buttons[7] == 'x' && _buttons[8] == 'x' ) {
-      Fluttertoast.showToast(
-          msg: "Winner X Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[0] == 'x' && _buttons[3] == 'x' && _buttons[6] == 'x' ) {
-      Fluttertoast.showToast(
-          msg: "Winner X Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[1] == 'x' && _buttons[4] == 'x' && _buttons[7] == 'x' ) {
-      Fluttertoast.showToast(
-          msg: "Winner X Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[2] == 'x' && _buttons[5] == 'x' && _buttons[8] == 'x' ) {
-      Fluttertoast.showToast(
-          msg: "Winner X Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[0] == 'x' && _buttons[4] == 'x' && _buttons[8] == 'x' ) {
-      Fluttertoast.showToast(
-          msg: "Winner X Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[2] == 'x' && _buttons[4] == 'x' && _buttons[6] == 'x' ) {
-      Fluttertoast.showToast(
-          msg: "Winner X Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
+        _calcMethod = '';
+        _oldScreenNumber = '0';
       });
     }
 
-    // O Player Winner
-    if(_buttons[0] == 'o' && _buttons[1] == 'o' && _buttons[2] == 'o' ) {
-      Fluttertoast.showToast(
-          msg: "Winner O Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[3] == 'o' && _buttons[4] == 'o' && _buttons[5] == 'o' ) {
-      Fluttertoast.showToast(
-          msg: "Winner O Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[6] == 'o' && _buttons[7] == 'o' && _buttons[8] == 'o' ) {
-      Fluttertoast.showToast(
-          msg: "Winner O Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[0] == 'o' && _buttons[3] == 'o' && _buttons[6] == 'o' ) {
-      Fluttertoast.showToast(
-          msg: "Winner O Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[1] == 'o' && _buttons[4] == 'o' && _buttons[7] == 'o' ) {
-      Fluttertoast.showToast(
-          msg: "Winner O Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[2] == 'o' && _buttons[5] == 'o' && _buttons[8] == 'o' ) {
-      Fluttertoast.showToast(
-          msg: "Winner O Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[0] == 'o' && _buttons[4] == 'o' && _buttons[8] == 'o' ) {
-      Fluttertoast.showToast(
-          msg: "Winner O Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
-    if(_buttons[2] == 'o' && _buttons[4] == 'o' && _buttons[6] == 'o' ) {
-      Fluttertoast.showToast(
-          msg: "Winner O Player",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-      setState(() {
-        _isStopGame = true;
-      });
-    }
   }
 
   @override
@@ -309,183 +84,515 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: [
-          IconButton(
-              onPressed: () {
-                _newGame();
-              },
-              icon: const Icon(Icons.refresh ,color: backgroundColor,),
-          ),
-        ],
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: screenWidth(context)*0.28,
-                    height: screenHeight(context)*0.2,
-                    child: TextButton(
-                      onPressed: () {
-                        _isORole ? _addToList('o', 0) : _addToList('x', 0);
-                      },
-                      child: Text(_buttons[0],
-                      style: const TextStyle(
-                        color: backgroundColor,
-                        fontSize: 50,
+        child: Container(
+          color: textColorBlack,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: screenWidth(context)*0.89,
+                      height: screenHeight(context)*0.2,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        reverse: true,
+                        child: Row(
+                          textDirection: TextDirection.rtl,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(_screenNumber,
+                                  style: const TextStyle(
+                                    color: textColorWhite,
+                                    fontSize: 70,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      ),
-                      style: _buttons[0] == 'x' ||  _buttons[0] == ''  ? buttonXStyle : buttonOStyle,
                     ),
-                  ),
-                  SizedBox(
-                    width: screenWidth(context)*0.28,
-                    height: screenHeight(context)*0.2,
-                    child: TextButton(
+
+                  ],
+                ),
+
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
                         onPressed: () {
-                          _isORole ? _addToList('o', 1) : _addToList('x', 1);
+                          setState(() {
+                            _screenNumber = '0';
+                          });
                         },
-                        child: Text(_buttons[1],
-                          style: const TextStyle(
-                            color: backgroundColor,
-                            fontSize: 50,
+                        child: const Text('AC',
+                        style: TextStyle(
+                          color: textColorBlack,
+                          fontSize: 25,
+                        ),
+                        ),
+                        style: buttonGreyStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            return;
+                          } else if(!_screenNumber.startsWith('-')) {
+                            setState(() {
+                              _screenNumber = '-' + _screenNumber;
+                            });
+                          } else if(_screenNumber.startsWith('-')) {
+                            setState(() {
+                              _screenNumber = _screenNumber.replaceAll('-', '');
+                            });
+                          }
+                        },
+                        child: const Text('+/-',
+                          style: TextStyle(
+                            color: textColorBlack,
+                            fontSize: 25,
                           ),
                         ),
-                      style: _buttons[1] == 'x' ||  _buttons[1] == ''  ? buttonXStyle : buttonOStyle,
-                    ),
-                  ),
-                  SizedBox(
-                    width: screenWidth(context)*0.28,
-                    height: screenHeight(context)*0.2,
-                    child: TextButton(
-                      onPressed: () {
-                        _isORole ? _addToList('o', 2) : _addToList('x', 2);
-                      },
-                      child: Text(_buttons[2],
-                        style: const TextStyle(
-                          color: backgroundColor,
-                          fontSize: 50,
-                        ),
+                        style: buttonGreyStyle,
                       ),
-                      style: _buttons[2] == 'x' ||  _buttons[2] == ''  ? buttonXStyle : buttonOStyle,
                     ),
-                  ),
-                ],
-              ),
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_oldScreenNumber == '0') {
+                            _storeFirstNumber(_screenNumber, '%');
+                          }
+                        },
+                        child: const Text('%',
+                          style: TextStyle(
+                            color: textColorBlack,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonGreyStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_oldScreenNumber == '0') {
+                            _storeFirstNumber(_screenNumber, '÷');
+                          }
+                        },
+                        child: const Text('÷',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonOrangeStyle,
+                      ),
+                    ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: screenWidth(context)*0.28,
-                    height: screenHeight(context)*0.2,
-                    child: TextButton(
-                      onPressed: () {
-                        _isORole ? _addToList('o', 3) : _addToList('x', 3);
-                      },
-                      child: Text(_buttons[3],
-                        style: const TextStyle(
-                          color: backgroundColor,
-                          fontSize: 50,
-                        ),
-                      ),
-                      style: _buttons[3] == 'x' ||  _buttons[3] == ''  ? buttonXStyle : buttonOStyle,
-                    ),
-                  ),
-                  SizedBox(
-                    width: screenWidth(context)*0.28,
-                    height: screenHeight(context)*0.2,
-                    child: TextButton(
-                      onPressed: () {
-                        _isORole ? _addToList('o', 4) : _addToList('x', 4);
-                      },
-                      child: Text(_buttons[4],
-                        style: const TextStyle(
-                          color: backgroundColor,
-                          fontSize: 50,
-                        ),
-                      ),
-                      style: _buttons[4] == 'x' ||  _buttons[4] == ''  ? buttonXStyle : buttonOStyle,
-                    ),
-                  ),
-                  SizedBox(
-                    width: screenWidth(context)*0.28,
-                    height: screenHeight(context)*0.2,
-                    child: TextButton(
-                      onPressed: () {
-                        _isORole ? _addToList('o', 5) : _addToList('x', 5);
-                      },
-                      child: Text(_buttons[5],
-                        style: const TextStyle(
-                          color: backgroundColor,
-                          fontSize: 50,
-                        ),
-                      ),
-                      style: _buttons[5] == 'x' ||  _buttons[5] == ''  ? buttonXStyle : buttonOStyle,
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: screenWidth(context)*0.28,
-                    height: screenHeight(context)*0.2,
-                    child: TextButton(
-                      onPressed: () {
-                        _isORole ? _addToList('o', 6) : _addToList('x', 6);
-                      },
-                      child: Text(_buttons[6],
-                        style: const TextStyle(
-                          color: backgroundColor,
-                          fontSize: 50,
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '7';
+                            });
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '7';
+                            });
+                          }
+                        },
+                        child: const Text('7',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
                         ),
+                        style: buttonDarkGreyStyle,
                       ),
-                      style: _buttons[6] == 'x' ||  _buttons[6] == ''  ? buttonXStyle : buttonOStyle,
                     ),
-                  ),
-                  SizedBox(
-                    width: screenWidth(context)*0.28,
-                    height: screenHeight(context)*0.2,
-                    child: TextButton(
-                      onPressed: () {
-                        _isORole ? _addToList('o', 7) : _addToList('x', 7);
-                      },
-                      child: Text(_buttons[7],
-                        style: const TextStyle(
-                          color: backgroundColor,
-                          fontSize: 50,
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '8';
+                            });
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '8';
+                            });
+                          }
+                        },
+                        child: const Text('8',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
                         ),
+                        style: buttonDarkGreyStyle,
                       ),
-                      style: _buttons[7] == 'x' ||  _buttons[7] == ''  ? buttonXStyle : buttonOStyle,
                     ),
-                  ),
-                  SizedBox(
-                    width: screenWidth(context)*0.28,
-                    height: screenHeight(context)*0.2,
-                    child: TextButton(
-                      onPressed: () {
-                        _isORole ? _addToList('o', 8) : _addToList('x', 8);
-                      },
-                      child: Text(_buttons[8],
-                        style: const TextStyle(
-                          color: backgroundColor,
-                          fontSize: 50,
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '9';
+                            });
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '9';
+                            });
+                          }
+                        },
+                        child: const Text('9',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
                         ),
+                        style: buttonDarkGreyStyle,
                       ),
-                      style: _buttons[8] == 'x' ||  _buttons[8] == '' ? buttonXStyle : buttonOStyle,
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_oldScreenNumber == '0') {
+                            _storeFirstNumber(_screenNumber, 'x');
+                          }
+                        },
+                        child: const Text('X',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonOrangeStyle,
+                      ),
+                    ),
+
+                  ],
+                ),
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '4';
+                            });
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '4';
+                            });
+                          }
+                        },
+                        child: const Text('4',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonDarkGreyStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '5';
+                            });
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '5';
+                            });
+                          }
+                        },
+                        child: const Text('5',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonDarkGreyStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '6';
+                            });
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '6';
+                            });
+                          }
+                        },
+                        child: const Text('6',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonDarkGreyStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_oldScreenNumber == '0') {
+                            _storeFirstNumber(_screenNumber, '-');
+                          }
+                        },
+                        child: const Text('-',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonOrangeStyle,
+                      ),
+                    ),
+
+                  ],
+                ),
+
+
+
+
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '1';
+                            });
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '1';
+                            });
+                          }
+                        },
+                        child: const Text('1',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonDarkGreyStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '2';
+                            });
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '2';
+                            });
+                          }
+                        },
+                        child: const Text('2',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonDarkGreyStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '3';
+                            });
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '3';
+                            });
+                          }
+                        },
+                        child: const Text('3',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonDarkGreyStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_oldScreenNumber == '0') {
+                            _storeFirstNumber(_screenNumber, '+');
+                          }
+                        },
+                        child: const Text('+',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonOrangeStyle,
+                      ),
+                    ),
+
+                  ],
+                ),
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: screenWidth(context)*0.43,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '0';
+                            });
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '0';
+                            });
+                          }
+                        },
+                        child: const Text('0',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonDarkGreyStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_screenNumber == '0') {
+                            setState(() {
+                              _screenNumber = '0.';
+                            });
+                          } else if(_screenNumber.contains('.')) {
+                            return;
+                          } else {
+                            setState(() {
+                              _screenNumber = _screenNumber + '.';
+                            });
+                          }
+                        },
+                        child: const Text(',',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonDarkGreyStyle,
+                      ),
+                    ),
+
+                    SizedBox(
+                      width: screenWidth(context)*0.2,
+                      height: screenHeight(context)*0.1,
+                      child: TextButton(
+                        onPressed: () {
+                          if(_oldScreenNumber != '0') {
+                            _resultCalc(_screenNumber);
+                          }
+                        },
+                        child: const Text('=',
+                          style: TextStyle(
+                            color: textColorWhite,
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: buttonOrangeStyle,
+                      ),
+                    ),
+
+                  ],
+                ),
+
+
+              ],
+            ),
           ),
         ),
       ),
